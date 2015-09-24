@@ -119,8 +119,14 @@ public class Solution09 {
 		List<List<Integer>> res2 = getInterleaving(list1, list2);
 		list2.add(0, node12);
 
-		res.addAll(res1);
-		res.addAll(res2);
+		for (List<Integer> l : res1) {
+			l.add(0, node11);
+			res.add(new ArrayList<Integer>(l));
+		}
+		for (List<Integer> l : res2) {
+			l.add(0, node12);
+			res.add(new ArrayList<Integer>(l));
+		}
 
 		return res;
 	}
