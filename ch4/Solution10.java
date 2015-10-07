@@ -64,19 +64,27 @@ public class Solution10 {
 	}
 
 	private static void inorder (TreeNode root, StringBuilder sb){
-		if (root == null)
+		if (root == null) {
+			sb.append(0);//if not, won't be able to distinguish between left and right
+			sb.append(" ");//to split between integers
 			return;
+		}
 
 		inorder(root.left, sb);
 		sb.append(root.value);
+		sb.append(" ");
 		inorder(root.right, sb);
 	}
 
 	private static void preorder (TreeNode root, StringBuilder sb){
-		if (root == null)
+		if (root == null) {
+			sb.append(0);
+			sb.append(" ");
 			return;
+		}
 
 		sb.append(root.value);
+		sb.append(" ");
 		preorder(root.left, sb);
 		preorder(root.right, sb);
 	}

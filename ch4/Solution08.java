@@ -18,9 +18,6 @@ class TreeNode {
 	}
 }
 
-class Result {
-	TreeNode ancestor = null;
-}
 
 class CInput {
 	TreeNode root;
@@ -43,37 +40,29 @@ public class Solution08 {
 		This is the first ancestor. 
 
 		This method also works for general trees, not only binary tree.
-	
+
+	Special cases:
+		Target nodes don't exist, return null;
+		Two target nodes in the same branch, one is the ancestor of the other.
+
 	Time complexity: O(n) for traversal
 	Space Complexity: O(n) for storing tree, no extra space
 	*/
 	private static TreeNode firstCommonAncestor(TreeNode root, TreeNode a, TreeNode b) {
-		Result res = new Result();
-		helper(root, a, b, res);
-		return res.ancestor; //can be null, when the nodes are not in the tree 
-	}
-
-	public static boolean helper(TreeNode root, TreeNode a, TreeNode b, Result res) {
 		if (root == null)
-			return false;
-		
-		if (root == a || root == b) //if find the target nodes on the half way
-			return true;
+			return null;
 
-		boolean isLeft = helper(root.left, a, b, res);
-		boolean isRight = helper(root.right, a, b, res);
-
-		if (res.ancestor != null) //already find the first common ancestor in the above recursions
-			return true;
-
-		if (isLeft && isRight) {
-			res.ancestor = root;
-			return true;
-		} else if (isLeft || isRight) {
-			return true;
+		if (root == a || root == b) {
+			return root;
 		}
 
-		return false;
+		TreeNode left = firstCommonAncestor(root.left, a, b);
+		TreeNode right = firstCommonAncestor(root.right, a, b);
+		if (left != null && right != null){
+			return root;
+		}
+
+		return left != null ? left : right;
 	}
 
 
@@ -113,7 +102,7 @@ public class Solution08 {
 		n2.right = n6;
 
 		input.root = n0;
-		input.target1 = n3;
+		input.target1 = n2;
 		input.target2 = n6;
 
 		return input;
