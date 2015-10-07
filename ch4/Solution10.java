@@ -15,6 +15,7 @@ class CInput {
 	TreeNode t2;
 }
 
+
 public class Solution10 {
 	/*
 	Solution 1

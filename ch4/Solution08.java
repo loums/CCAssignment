@@ -18,7 +18,6 @@ class TreeNode {
 	}
 }
 
-
 class CInput {
 	TreeNode root;
 	TreeNode target1;
