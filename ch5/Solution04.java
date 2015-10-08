@@ -24,27 +24,38 @@ public class Solution04 {
 	Solution 1
 	
 	For getting the next number:
-		Find the first block (from left to right) of the continue ones, and 
-		move its leftmost bit one of this block step left. Then move the rest 
-		of ones in this block to the rightmost positions.
+		Find the first block (from right to left) of the continue ones.
+		a). if the first block size is 1, just need to move this bit
+		one step left.
+			0001111100100
+			0001111101000 (next) 
+		b). if the first block size is larger than 1. Move its leftmost 
+		bit one of this block step left. Then move the rest of ones in 
+		this block to the rightmost positions.
 			0001110011100
 			0001110100011 (next)
+		
 
-	For getting previous number: (the reverse step of getting next)
-		Find the first and second block of ones. Move the rightmost one in second
-		block one step right and merge the first block of ones to exactly right
-		of it. 
+	For getting previous number:
+		Find the first and second block of ones. 
+		a). If the first block is not at the rightmost. Then move the rightmost bit
+		of one in the first block, one step right.
 			0001110011100
-			0001101111000 (pre)
+			0001110011010 (pre)
+		b). If the first block is at the rightmost, then it's the the reverse step 
+		of getting next. Move the rightmost one in second block one step right 
+		and merge the first block of ones to exactly rightof it. 
+			0001110000111
+			0001101111000 (pre)	
 
 	Assumptions:
 		All zeros and all ones return -1;
 	
 	Corner cases:
 		the first block of ones is size one. For pre, same steps; for next, just need 
-		to move that bit one step right. 
+		to move that bit one step left. 
 			0001110010
-			0001101100 (pre, same procedure)
+			0001100001 (pre, same procedure)
 			0001110100 (next)
 
 		if all the ones are already in the leftmost, then it's the largest, it 
@@ -59,7 +70,7 @@ public class Solution04 {
 		  	0011010 (pre)
 		  	0100011 (next)
 
-	Time complexity:
+	Time complexity: 
 	Space complexity:
 	*/
 
@@ -79,26 +90,30 @@ public class Solution04 {
 	}
 
 	private static int getPreNum(int num) {
-		//1. find the first block and sencond block
+
+		//find the first block and sencond block
 		CIndex firstBlock = getContinueOnes(num, 0);
 		CIndex secondBlock = getContinueOnes(num, firstBlock.left + 1);
 
-		if (secondBlock.right == -1) {//only one block of ones
-			if (firstBlock.right == 0) {//already the smallest, no pre
-				return -1;
-			}
+		//corner case: only one block of ones and already the smallest, no pre
+		if (secondBlock.right == -1 && firstBlock.right == 0) {
+			return -1;
+		}
 
-			//move the right most bit of 1, one step right
-			int mask = ~(1 << firstBlock.left);
+		//case a). first block not at the rightmost
+		//just need to move the right most bit of 1, one step right
+		if (firstBlock.right != 0) {
+			int mask = ~(1 << firstBlock.right);
 			num &= mask;
 
-			int mask2 = 1 << (firstBlock.left-1);
+			int mask2 = 1 << (firstBlock.right-1);
 			num |= mask2;
 
 			return num;
 		}
 
-		//2. Move the rightmost one in second block one step right and merge 
+		//case b). first block is at the rightmost
+		//Move the rightmost one in second block one step right and merge 
 		//the first block of ones to exactly right of it. 
 
 		//clear the right of pos to all zeros
@@ -116,30 +131,33 @@ public class Solution04 {
 	}
 
 	private static int getNextNum(int num) {
-		//1. find the first block of ones
+		//find the first block of ones
 		CIndex firstBlock = getContinueOnes(num, 0);
 
-		//already the largest, doesn't have next
+		//corner case: already the largest, doesn't have next
 		if (firstBlock.left == integerLength-1) {
 			return -1;
 		}
 
 		int size = firstBlock.left - firstBlock.right + 1;
 		
-		//2. move the rightmost bit left one step
+		//move the leftmost bit one step left
 		int pos = firstBlock.left + 1;
 		num |= (1 << pos);
+
+		//case a). only contains one '1'
+		//just need to move this '1' one step left
+		if (size == 1) {
+			return num;
+		}
+
 		//clear the right of pos
 		int mask = ~((1 << pos) - 1);
 		num &= mask;
 
 
-		//only contains one '1', just need to move this '1' one step left
-		if (size == 1) {
-			return num;
-		}
-
-		//3. move the rest of ones to the rightmost of num
+		//case b). more than one ones
+		//move the rest of ones to the rightmost of num
 		//set the size-1 rightmost bits to ones.
 		int mask2 = (1 << (size - 1)) - 1;
 		num |= mask2;

@@ -8,7 +8,7 @@
 Solution:
 	It judges if n has only one bit of 1. 
 
-	Since n-1 will turn the first 1 bit (from left to right) into zero and the 
+	Since n-1 will turn the first 1 bit (from right to left) into zero and the 
 	bits in the right of it to all ones, like 1000100 - 1 = 1000011. Here the 
 	third bit (from left to right), turn to 0, and the two bits in the right 
 	it (the first and second bit, from left to right) turn to 1s. 
@@ -18,4 +18,6 @@ Solution:
 	then n-1 is totally toggled with n, so that n & (n-1) will be 0. But if not,
 	the bits in the left of the first 1, will still be the same. Then the ones
 	in the right of i, will make the n & (n-1) != 0.
+
+	Corner case: when n == 0, it also equals to 0.
 */

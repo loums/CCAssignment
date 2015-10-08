@@ -16,7 +16,7 @@ public class Solution06 {
 	/* 
 	Solution 
 		Count how many bits are different between two numbers.
-		a |= b, then count the number of bit 1.
+		a ^ b, then count the number of bit 1.
 	Assumptions:
 		These two numbers have same length of bits
 	Time complexity: O(b), b is the length of bit sequence
