@@ -97,7 +97,7 @@ public class Solution04 {
 
 		//corner case: only one block of ones and already the smallest, no pre
 		if (secondBlock.right == -1 && firstBlock.right == 0) {
-			return -1;
+			return 0;
 		}
 
 		//case a). first block not at the rightmost
@@ -136,7 +136,7 @@ public class Solution04 {
 
 		//corner case: already the largest, doesn't have next
 		if (firstBlock.left == integerLength-1) {
-			return -1;
+			return 0;
 		}
 
 		int size = firstBlock.left - firstBlock.right + 1;
