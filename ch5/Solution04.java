@@ -177,6 +177,7 @@ public class Solution04 {
 			} else {//this bit is zero, record the index before it
 				if (res.right != -1 && res.left == -1) {
 					res.left = index - 1;
+					break;
 				}
 			}
 		}

@@ -26,7 +26,8 @@ public class Solution02 {
 	private static String BinarytoString(double num) {
 		StringBuilder sb = new StringBuilder("0.");
 
-		for (int i = 0; i < 32 && num != 0; i++) {
+		int i = 0;
+		for (; i < 32 && num != 0; i++) {
 			num *= 2;
 			if (num >= 1) {
 				sb.append(1);
@@ -34,6 +35,10 @@ public class Solution02 {
 			} else {
 				sb.append(0);
 			}
+		}
+
+		if (i >= 32) {
+			return null;
 		}
 
 		return sb.toString();
@@ -46,7 +51,13 @@ public class Solution02 {
 		String res = BinarytoString(num);
 
 		System.out.println("----------- 5.2  Binary to String -----------");
-		System.out.println(res);
+
+		if (res == null) {
+			System.out.println("ERROR");
+		} else {
+			System.out.println(res);
+		}
+		
 	}
 
 
